@@ -22,14 +22,14 @@ Este programa visa demonstrar a integração de técnicas de programação clás
 #### **Componentes e Métodos**
 
 1. **Soma de Série Numérica:**
-   - Utiliza-se a fórmula de soma dos primeiros \(n\) números naturais:
-     \[
+   - Utiliza-se a fórmula de soma dos primeiros $n$ números naturais:
+     $$
      \text{Sum} = \frac{n(n+1)}{2}
-     \]
-     Para \(n = 10\):
-     \[
+     $$
+     Para $n = 10$:
+     $$
      \text{Sum} = \frac{10(10+1)}{2} = \frac{10 \times 11}{2} = 55
-     \]
+     $$
 
 2. **Simulação de Qubit:**
    - Em vez de verdadeiros qubits, utilizamos um gerador de números aleatórios para simular um estado binário (0 ou 1) com probabilidade igual, que é uma abstração simples do conceito de superposição e colapso de estado quântico.
