@@ -1,180 +1,125 @@
-# H-brido-Cl-ssico-Qu-ntico
-Programa Clássico 
+# Híbrido Clássico–Quântico
 
-### Documentação Completa do Programa Híbrido Clássico e Quântico
+[![Testes](https://github.com/7dsolv/H-brido-Cl-ssico-Qu-ntico/actions/workflows/tests.yml/badge.svg)](https://github.com/7dsolv/H-brido-Cl-ssico-Qu-ntico/actions/workflows/tests.yml)
+[![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![Licença MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-6ee7b7)](LICENSE)
 
-**Título:** Programa Híbrido de Computação Clássica e Quântica Simulada dos Anos 1950-60
+Demonstração educacional que compara uma tarefa clássica — a soma de uma progressão aritmética — com a representação mínima de um qubit por vetor de estado e sua medição probabilística.
 
-**Versão:** 1.0
+> [!IMPORTANT]
+> O projeto é um simulador clássico. Ele não executa em hardware quântico e não oferece vantagem quântica. Um bit aleatório com distribuição 50/50 reproduz as estatísticas de uma única medição de $|+\rangle$ na base computacional, mas não reproduz fase, interferência ou emaranhamento.
 
-**Data:** 28 de Dezembro de 2024
+## Executar
 
-**Autor:** Adilson Oliveira
+Não há dependências externas.
 
----
-
-#### **Objetivo do Programa**
-
-Este programa visa demonstrar a integração de técnicas de programação clássica com um conceito simplificado de computação quântica, adaptado ao contexto tecnológico dos anos 1950-60. O programa calcula a soma de uma série numérica de 1 a 10 e realiza uma simulação de um estado binário aleatório que emula o comportamento de um qubit em um sistema clássico.
-
----
-
-#### **Componentes e Métodos**
-
-1. **Soma de Série Numérica:**
-   - Utiliza-se a fórmula de soma dos primeiros $n$ números naturais:
-     $$
-     \text{Sum} = \frac{n(n+1)}{2}
-     $$
-     Para $n = 10$:
-     $$
-     \text{Sum} = \frac{10(10+1)}{2} = \frac{10 \times 11}{2} = 55
-     $$
-
-2. **Simulação de Qubit:**
-   - Em vez de verdadeiros qubits, utilizamos um gerador de números aleatórios para simular um estado binário (0 ou 1) com probabilidade igual, que é uma abstração simples do conceito de superposição e colapso de estado quântico.
-
----
-
-#### **Implementação**
-
-##### **Assembly (Simulação de CPU da Era)**
-```assembly
-; Soma de uma série numérica
-START:  LDA #0            ; Carrega 0 no acumulador
-        STA SUM           ; Armazena 0 em SUM
-        LDA #10           ; Carrega 10 no acumulador (n)
-        STA COUNT         ; Armazena 10 em COUNT
-LOOP:   LDA SUM           ; Carrega SUM no acumulador
-        ADD COUNT         ; Adiciona COUNT ao acumulador (SUM += COUNT)
-        STA SUM           ; Armazena o novo valor em SUM
-        DEC COUNT         ; Decrementa COUNT
-        BNE LOOP          ; Se COUNT não for zero, volta ao LOOP
-        JSR PRINT_SUM     ; Chama a rotina para imprimir a soma
-        JSR PRINT_QUBIT   ; Chama a rotina para simulação de qubit
-        HLT               ; Parar o programa
-
-PRINT_SUM:
-        ; Implementação para impressão de SUM
-        ; Cálculo matemático: SUM = 1 + 2 + 3 + ... + 10 = 55
-        RTS
-
-PRINT_QUBIT:
-        LDA #$01          ; Carrega um valor aleatório (emulação)
-        AND RANDOM_REG    ; AND com um registrador de valor aleatório (0 ou 1)
-        BNE QUBIT_ONE      ; Se resultado não é zero, vai para estado 1
-        LDA #$00          ; Se zero, carrega 0
-        JMP PRINT_STATE
-QUBIT_ONE:
-        LDA #$01          ; Carrega 1
-PRINT_STATE:
-        ; Implementação para impressão do estado binário
-        RTS
+```bash
+python -m hybrid_demo --n 10 --shots 10000 --seed 7
 ```
 
-##### **Fortran (Foco em Cálculos Matemáticos)**
-```fortran
-PROGRAM SERIES_SUM_ADILSON_OLIVEIRA
-  INTEGER :: N, SUM, RANDOM_STATE
-  SUM = 0
-  DO N = 1, 10
-    SUM = SUM + N  ! Acumulando cada número de 1 a 10
-  END DO
-  PRINT *, "Soma da série é:", SUM  ! SUM = 55
-  
-  ! Simulação de comportamento probabilístico
-  CALL RANDOM_NUMBER(R)
-  RANDOM_STATE = INT(R * 2)  ! 0 ou 1 como se fosse um qubit, probabilidade 50%
-  PRINT *, "Estado aleatório (como um qubit):", RANDOM_STATE
-  
-  ! Verificação matemática da soma
-  IF (SUM == (10*11)/2) THEN
-    PRINT *, "Verificação da soma: Correta"
-  ELSE
-    PRINT *, "Verificação da soma: Incorreta"
-  ENDIF
-END PROGRAM
+Executar os testes:
+
+```bash
+python -m unittest discover -s tests -v
 ```
 
-##### **COBOL (Foco em Relatórios e Legibilidade)**
-```cobol
-IDENTIFICATION DIVISION.
-PROGRAM-ID. SERIES-REPORT-ADILSON-OLIVEIRA.
-DATA DIVISION.
-WORKING-STORAGE SECTION.
-01 SUM PIC 9(03) VALUE 0.
-01 COUNT PIC 9(02) VALUE 10.
-01 RANDOM-STATE PIC 9 VALUE 0.
-01 VERIFICATION PIC X(10) VALUE 'Incorreta'.
-PROCEDURE DIVISION.
-    PERFORM VARYING N FROM 1 BY 1 UNTIL N > COUNT
-        ADD N TO SUM  ! Soma acumulativa
-    END-PERFORM
-    DISPLAY "SOMA DA SÉRIE: " SUM  ! SUM = 55
-    
-    COMPUTE RANDOM-STATE = FUNCTION RANDOM * 2  ! Estado binário aleatório
-    DISPLAY "ESTADO ALEATÓRIO (como um qubit): " RANDOM-STATE
-    
-    IF SUM = (COUNT * (COUNT + 1)) / 2 THEN
-       MOVE 'Correta' TO VERIFICATION  ! Verificação matemática
-    END-IF
-    DISPLAY "VERIFICAÇÃO DA SOMA: " VERIFICATION
-    STOP RUN.
+## Parte clássica: soma de uma série
+
+A soma dos primeiros $n$ inteiros não negativos é:
+
+```math
+S_n=\sum_{k=1}^{n}k=\frac{n(n+1)}{2}
 ```
 
-##### **LISP (Recursão e Listas)**
-```lisp
-; Soma de uma série numérica por Adilson Oliveira
-(defun sum-series-adilson-oliveira (n)
-  (if (= n 0)
-      0
-      (+ n (sum-series-adilson-oliveira (- n 1)))))  ; Recursão para somar de n até 0
+Para $n=10$:
 
-; Simulação de um estado binário aleatório
-(defun simulate-qubit-like-adilson-oliveira ()
-  (if (< (random 1.0) 0.5)
-      0
-      1))
-
-; Verificação matemática
-(defun verify-sum-adilson-oliveira (n sum)
-  (= sum (/ (* n (+ n 1)) 2)))  ; Verificação usando a fórmula da soma
-
-(let* ((result (sum-series-adilson-oliveira 10))
-       (qubit-state (simulate-qubit-like-adilson-oliveira)))
-  (format t "Soma da série: ~A~%" result)  ; result = 55
-  (format t "Estado aleatório (como um qubit): ~A~%" qubit-state)
-  (format t "Verificação da soma: ~A~%" 
-    (if (verify-sum-adilson-oliveira 10 result) "Correta" "Incorreta")))
+```math
+S_{10}=\frac{10(10+1)}{2}=55
 ```
 
-##### **ALGOL (Estrutura Clara e Precisão Científica)**
-```algol
-begin
-  integer i, sum, state;
-  sum := 0;
-  for i := 1 step 1 until 10 do
-    sum := sum + i;  ! Acumulando cada número de 1 a 10
-  print("Soma da série: ", sum);  ! sum = 55
-  
-  ! Simulação de um estado binário aleatório
-  state := entier(random(2));  ! 0 ou 1, probabilidade 50%
-  print("Estado aleatório (como um qubit): ", state);
+O projeto calcula o resultado de duas formas — iteração e fórmula fechada — e verifica que ambas coincidem.
 
-  ! Verificação matemática
-  if sum = (10 * 11) / 2 then begin
-    print("Verificação da soma: Correta");
-  end else begin
-    print("Verificação da soma: Incorreta");
-  end
-end;
+## Parte quântica: vetor de estado
+
+Um qubit puro normalizado pode ser escrito como:
+
+```math
+|\psi\rangle=\alpha|0\rangle+\beta|1\rangle
 ```
 
----
+com a condição:
 
-#### **Resultados Esperados**
+```math
+|\alpha|^2+|\beta|^2=1
+```
 
-- **Soma da Série:** 55 (verificado pela fórmula matemática)
-- **Estado Aleatório (Qubit Simulado):** 0 ou 1, com probabilidade de 50% para cada.
+Na medição pela base computacional:
 
-Este programa, criado por Adilson Oliveira, fornece uma visão sobre como poderíamos imaginar a integração de conceitos de computação clássica com a simulação de comportamentos quânticos dentro das limitações tecnológicas da época.
+```math
+P(0)=|\alpha|^2,\qquad P(1)=|\beta|^2
+```
+
+O estado $|+\rangle$, obtido ao aplicar a porta de Hadamard em $|0\rangle$, é:
+
+```math
+|+\rangle=H|0\rangle=\frac{|0\rangle+|1\rangle}{\sqrt{2}}
+```
+
+Por isso, uma medição isolada produz `0` ou `1` com probabilidade igual. A diferença aparece quando preservamos e manipulamos amplitudes. Por exemplo:
+
+```math
+H|+\rangle=|0\rangle
+```
+
+Essa interferência não pode ser representada por uma moeda clássica que armazena somente probabilidades.
+
+## Comparação
+
+| Propriedade | Bit aleatório clássico | Qubit simulado |
+|---|---:|---:|
+| Resultado observado | `0` ou `1` | `0` ou `1` |
+| Probabilidades | sim | sim |
+| Amplitudes complexas | não | sim |
+| Fase relativa | não | sim |
+| Interferência por Hadamard | não | sim |
+| Emaranhamento | não neste modelo | não neste modelo de um qubit |
+| Hardware quântico | não | não |
+
+## API
+
+```python
+from hybrid_demo import Qubit, arithmetic_series_sum
+
+print(arithmetic_series_sum(10))
+
+plus = Qubit.zero().hadamard()
+print(plus.probabilities())
+print(plus.hadamard())  # volta a |0>, salvo erro numérico
+```
+
+Principais componentes:
+
+- `arithmetic_series_sum(n)`: fórmula fechada;
+- `iterative_series_sum(n)`: soma iterativa usada para verificação;
+- `Qubit`: estado normalizado de um qubit;
+- `Qubit.hadamard()`: aplicação da porta $H$;
+- `Qubit.measure()`: amostragem pela regra de Born;
+- `sample_classical_bit()`: referência clássica 50/50.
+
+## Limites do simulador
+
+- representa apenas um qubit puro;
+- não modela ruído, decoerência ou portas físicas;
+- não possui emaranhamento nem circuitos multi-qubit;
+- usa números de ponto flutuante e um gerador pseudoaleatório clássico;
+- serve para ensino e testes, não para alegar desempenho quântico.
+
+## Contribuir
+
+Forks e pull requests são bem-vindos. Consulte [CONTRIBUTING.md](CONTRIBUTING.md) e inclua testes para qualquer nova porta, estado ou cálculo.
+
+## Autor e licença
+
+Criado por **Adilson Oliveira / [7dsolv](https://github.com/7dsolv)**.
+
+Distribuído sob a [Licença MIT](LICENSE).
